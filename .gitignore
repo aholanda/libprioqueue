@@ -1,3 +1,9 @@
+# Programs
+tests
+
+# Profiling
+perf.*
+
 # Prerequisites
 *.d
 
