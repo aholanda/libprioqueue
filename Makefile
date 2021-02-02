@@ -4,6 +4,9 @@ ifeq ($(PREFIX),)
     PREFIX := /usr/local
 endif
 
+all: libprioqueue.a libprioqueue.so prioqueue.h
+phony += all
+
 help:
 	@echo "Options are:"
 	@echo "install:\tcopy the shared and static libraries to"
@@ -20,7 +23,6 @@ trash += libprioqueue.so
 
 libprioqueue.so: prioqueue.o
 	@$(CC) -shared -o $@ $<
-	@ldconfig
 trash += libprioqueue.so
 
 install: libprioqueue.a libprioqueue.so
@@ -29,6 +31,7 @@ install: libprioqueue.a libprioqueue.so
 	@install -m 644 libprioqueue.so $(PREFIX)/lib/	
 	@install -d $(PREFIX)/include/
 	@install -m 644 prioqueue.h $(PREFIX)/include/
+	@ldconfig	
 phony += install
 
 uninstall:
