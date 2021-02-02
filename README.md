@@ -57,7 +57,7 @@ static void print_prio(KV *kv) {
   printf("prio=%ld\n", kv->prio);
 }
 
-int cmp(void *x, void *y) {
+static int cmp(void *x, void *y) {
   KV *u = (KV*)x, v = (KV*)y;
   return u->prio - v->prio;
 }
