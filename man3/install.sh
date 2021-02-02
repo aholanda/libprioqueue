@@ -34,18 +34,18 @@ function install {
     INSTALL=$1
     PREFIX=$2
     MANDIR="${PREFIX}/man/man3"
-    for f in `ls man3/*${EXT}`;
+    for f in `ls man3/*.troff`;
     do
-	    for m in `basename ${f} ${EXT} | awk -F "_" '{print $1" "$2" "$3}'`;
+	    for m in `basename ${f} .troff | awk -F "_" '{print $1" "$2" "$3}'`;
 	    do
             if [ $INSTALL == true ];
             then    
-                local manpage="${MANDIR}/${PROJ}_${m}.3"            
+                local manpage="${MANDIR}/${PROJ}_${m}${EXT}"            
                 run "install -d ${MANDIR}"
 		        run "install -m 644 ./${f} ${manpage}"
                 run "gzip -f ${manpage}"
             else                
-                local manpage="${MANDIR}/${PROJ}_${m}.3.gz"
+                local manpage="${MANDIR}/${PROJ}_${m}${EXT}.gz"
                 run "rm -f ${manpage}"
             fi
 	    done
