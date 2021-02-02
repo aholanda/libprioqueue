@@ -21,6 +21,28 @@ static int is_greater_than(PrioQueue *pq, void *x, void *y) {
         return pq->cmp(x, y) > 0;
 }
 
+/*
+  Create a priority queue structure that uses 
+  function pointer cmp to compare the elements 
+  in the heap array. The enumeration order sets
+  if the queue is in ascending order (PQMin) or
+  descending order (PQMax). The value PQMin for 
+  the enumeration means that lower values have 
+  greater priorities, and PQMax value the opposite.
+
+  During the structure creation, a heap array is allocated 
+  with a initial size equals to the macro 
+  PRIOQUEUE_INITIAL_CAPACITY set in the header. 
+  This avoids frequent reallocations and this value 
+  may be modified adjusting each project needs.
+
+  The first element in the heap array is ignored.
+  This becomes the shifts in the heap easier to 
+  reasoning. (Thanks to Sedgewick/Wayne)
+  The elements are numbered from 1 up to N (included).
+
+  @return a pointer to priority queue structure is returned.
+*/
 PrioQueue *prioqueue_new(int (*cmp)(void *x, void *y),
                          enum prioqueue_order order) {
         PrioQueue *pq;
@@ -44,7 +66,12 @@ PrioQueue *prioqueue_new(int (*cmp)(void *x, void *y),
         return pq;
 }
 
-
+/*
+  realoc_heap reallocate memory for priority queue
+  pq using new_capacity to represents the maximum 
+  number of elements minus 1 that can be stored in 
+  the heap array.
+*/
 static void **realloc_heap(PrioQueue *pq, long new_capacity) {
         void **tmp;
         
@@ -72,6 +99,11 @@ static void siftup(PrioQueue *pq, long i) {
         }
 }
 
+/*
+  To avoid constant reallocations of memory for the 
+  heap array, when there is no more room for a new 
+  element the capacity of heap array is doubled, 
+*/
 void prioqueue_insert(PrioQueue *pq, void *elem) {
         assert(pq);
 
@@ -104,6 +136,10 @@ static void siftdown(PrioQueue *pq, long i) {
         }
 }
 
+/*
+  and when the size of the heap array is less than 
+  its capacity
+*/
 void *prioqueue_delete(PrioQueue *pq) {
         void *elem;
 
@@ -139,7 +175,10 @@ long prioqueue_size(const PrioQueue *pq) {
 
         return pq->n;
 }
-
+/*
+  prioqueue_free releases all the memory 
+  allocated to the structure.
+*/
 void prioqueue_free(PrioQueue *pq) {
         if (pq) {
                 if (pq->heap)
