@@ -68,7 +68,7 @@ int main(int argc, char **argv) {
   PrioQueue *pq;
   KV *kv, kvs[N] = {{1, 30}, {2, 20}, {3, 10}};
   
-  /* Lower numbers first. To insert greater numbers first change PQMin to PQMax. */
+  /* Lower numbers first. To insert greater numbers first, change PQMin to PQMax. */
   pq = prioqueue_new(cmp, PQMin);
 
   for (i = 0; i < N; i++)
