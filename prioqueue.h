@@ -2,7 +2,9 @@
 #define __LIBPRIOQUEUE_PRIOQUEUE_H__
 
 /* Initial capacity for the heap. */
+#ifndef PRIOQUEUE_INITIAL_CAPACITY
 #define PRIOQUEUE_INITIAL_CAPACITY 64
+#endif
 
 typedef struct prioqueue_struct {
     /* Number of elements */
