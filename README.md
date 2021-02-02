@@ -46,4 +46,5 @@ gcc  tests.c -o tests -lprioqueue
   by Robert Sedgewick, Kevin Wayne. Addison-Wesley Professional, 2011.
 - ["Programming Pearls" (2nd Edition)](https://www.amazon.com/Programming-Pearls-2nd-Jon-Bentley/dp/0201657880/ref=sr_1_1?dchild=1&keywords=programming+pearls&qid=1612210954&sr=8-1)
   by Jon Bentley. Addison-Wesley Professional, 1999.
-  
+- ["Mastering Algorithms with C: Useful Techniques from Sorting to Encryption" (1st edition)](https://www.amazon.com/Mastering-Algorithms-C-Kyle-Loudon/dp/1565924533)
+  by Kyle Loudon. O'Reilly Media, 1999.
