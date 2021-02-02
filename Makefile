@@ -25,19 +25,20 @@ libprioqueue.so: prioqueue.o
 	@$(CC) -shared -o $@ $<
 trash += libprioqueue.so
 
-install: libprioqueue.a libprioqueue.so
+install: libprioqueue.a libprioqueue.so ./man3/install.sh
 	@install -d $(PREFIX)/lib/
 	@install -m 644 libprioqueue.a $(PREFIX)/lib/
 	@install -m 644 libprioqueue.so $(PREFIX)/lib/	
 	@install -d $(PREFIX)/include/
 	@install -m 644 prioqueue.h $(PREFIX)/include/
-	@ldconfig	
+	@./man3/install.sh --prefix $(PREFIX) --install
 phony += install
 
 uninstall:
 	$(RM) $(PREFIX)/lib/libprioqueue.a 
 	$(RM) $(PREFIX)/lib/libprioqueue.so 	
 	$(RM) $(PREFIX)/include/prioqueue.h
+	./man3/install.sh --prefix $(PREFIX) --uninstall	
 phony += uninstall
 
 tests: tests.c prioqueue.o
