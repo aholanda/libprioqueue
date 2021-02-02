@@ -42,7 +42,7 @@ gcc  tests.c -o tests -lprioqueue
 
 ## Using
 
-An example of a library client is as follows:
+An example of a client program is as follows:
 
 ````C
 #include <stdio.h>
@@ -77,7 +77,7 @@ int main(int argc, char **argv) {
   /* Get and print the least prio but maintain it. */
   print_prio((KV*)prioqueue_peek(pq));
 
-  /* Delete and print the prio values in descending order */
+  /* Delete and print the prio values in ascending order */
   for (i = 0; i < N; i++) {
     kv = (KV*)prioqueue_delete(pq);
     print_prio(kv);
