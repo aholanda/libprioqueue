@@ -136,10 +136,6 @@ static void siftdown(PrioQueue *pq, long i) {
         }
 }
 
-/*
-  and when the size of the heap array is less than 
-  its capacity
-*/
 void *prioqueue_delete(PrioQueue *pq) {
         void *elem;
 
