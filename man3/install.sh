@@ -10,29 +10,43 @@
 # are deleted.
 ##
 
-proj="prioqueue"
-ext=".3"
+PROJ="prioqueue"
+EXT=".3"
+SUDO=""
+
+if [ -n `which sudo` ];
+then
+    SUDO="sudo"
+fi
 
 function show_usage_and_exit {
     echo >&2 "usage: $0 --prefix PREFIX [--install|--uninstall]"
     exit 1
 }
 
+function run {
+    cmd="${SUDO} $1"
+    echo "$cmd"
+    eval "$cmd"
+}
+
 function install {
     INSTALL=$1
     PREFIX=$2
-    for f in `ls man3/*.3`;
+    MANDIR="${PREFIX}/man/man3"
+    for f in `ls man3/*${EXT}`;
     do
-	    for m in `basename $f ${ext} | awk -F "_" '{print $1" "$2" "$3}'`;
+	    for m in `basename ${f} ${EXT} | awk -F "_" '{print $1" "$2" "$3}'`;
 	    do
-            fman3="${PREFIX}/man/man3/${proj}_${m}${ext}"
             if [ $INSTALL == true ];
-            then
-                install -d ${PREFIX}/man/man3
-		        install ${f} ${fman3}
-                gzip ${fman3}
-            else
-                rm -f "${fman3}.gz"
+            then    
+                local manpage="${MANDIR}/${PROJ}_${m}.3"            
+                run "install -d ${MANDIR}"
+		        run "install -m 644 ./${f} ${manpage}"
+                run "gzip -f ${manpage}"
+            else                
+                local manpage="${MANDIR}/${PROJ}_${m}.3.gz"
+                run "rm -f ${manpage}"
             fi
 	    done
     done
