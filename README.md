@@ -58,7 +58,7 @@ static void print_prio(KV *kv) {
 }
 
 int cmp(void *x, void *y) {
-  KV *u = (KV*)x, v = *(KV*)y;
+  KV *u = (KV*)x, v = (KV*)y;
   return u->prio - v->prio;
 }
 
@@ -75,7 +75,7 @@ int main(int argc, char **argv) {
     prioqueue_insert(pq, &kvs[i]);
 
   /* Get and print the least prio but maintain it. */
-  print_prio((KV*)prioqueue_peek());
+  print_prio((KV*)prioqueue_peek(pq));
 
   /* Delete and print the prio values in descending order */
   for (i = 0; i < N; i++) {
