@@ -45,10 +45,11 @@ static void assert_equal(void *x, void *y) {
     }
 }
 
-static void test(enum prioqueue_order order) {
+static void test(enum prioqueue_order order, long factor) {
     PrioQueue *pq;
-    long i, delta, n = PRIOQUEUE_INITIAL_CAPACITY * 4;
+    long i, delta, n = PRIOQUEUE_INITIAL_CAPACITY * factor;
     KV *kvs; /* array of key/prioues */
+    KV *kv; /* pointer to kv struct */
 
     if (order == PQMin) {
         pq = prioqueue_new(cmp_less, PQMin);
@@ -66,9 +67,12 @@ static void test(enum prioqueue_order order) {
         prioqueue_insert(pq, &kvs[i]);
     }
 
-    for (i = n-1; i <= 0; i--)
-        assert_equal(prioqueue_delete(pq), &kvs[i]);
-
+    for (i = n-1; i >= 0; i--) {
+        if (!prioqueue_is_empty(pq)) {
+            kv = (KV*)prioqueue_delete(pq);
+            assert_equal(kv, &kvs[i]);
+        }
+    }
     if (kvs)
         free(kvs);
     prioqueue_free(pq);
@@ -78,7 +82,7 @@ static int tests() {
     int i;
 
     for (i = 0; i < 2; i++)
-        test(i);
+        test(i, 1);
 
     printf("ok: all tests passed\n");
 
