@@ -18,13 +18,13 @@ $ sudo make install
 
 There is a simple core logic test implemented in [tests.c](tests.c),
 
-````
+````sh
 $ make test
 ````
 
 and a memory allocation checking that uses also [tests.c](tests.c).
 
-````
+````sh
 $ make memcheck
 ````
 
@@ -33,12 +33,12 @@ $ make memcheck
 Examples of inclusion of library `prioqueue` in programs:
 
 - static
-````
+````sh
 $ gcc tests.c -o tests /usr/local/lib/libprioqueue.a
 ````
 
 - dynamic
-````
+````sh
 gcc  tests.c -o tests -lprioqueue
 ````
 
@@ -64,8 +64,8 @@ An example of a client program is as follows:
 #include <prioqueue.h>
 
 typedef struct kv_struct {
-  long key;
-  long prio;
+  long key; /* identification */
+  long prio; /* priority */
 } KV;
 
 static void print_kv(KV *kv, char *op) {
