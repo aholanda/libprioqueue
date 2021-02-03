@@ -175,12 +175,11 @@ static void siftdown(PrioQueue *pq, long i) {
         while (2*i <= pq->n) {
                 j = 2*i;
 
-                x = pq->heap[i];
-                y = pq->heap[j];
-
-                if (j < pq->n && !pq->__cmp(pq, x, y))
+                if (j < pq->n 
+                    && !pq->__cmp(pq, pq->heap[j], pq->heap[j+1]))
                         j++;
 
+                x = pq->heap[i];
                 y = pq->heap[j];
                 if (pq->__cmp(pq, x, y))
                         break;
