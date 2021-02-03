@@ -114,15 +114,15 @@ int main(int argc, char **argv) {
 
 The order of complexity each function is presented in the following table:
 
-| function            | order of complexity |
-|---------------------|:-------------------:|
-| priority_new()      | O(1)                |
-| priority_free()     | O(1)                |
-| priority_insert()   | O(lg N)             |
-| priority_delete()   | O(lg N)             |
-| priority_peek()     | O(1)                |
-| priority_size()     | O(1)                |
-| priority_is_empty() | O(1)                |
+| Function              | Order of complexity |
+|-----------------------|:-------------------:|
+| `priority_new()`      | O(1)                |
+| `priority_free()`     | O(1)                |
+| `priority_insert()`   | O(lg N)             |
+| `priority_delete()`   | O(lg N)             |
+| `priority_peek()`     | O(1)                |
+| `priority_size()`     | O(1)                |
+| `priority_is_empty()` | O(1)                |
 
 
 ## References
