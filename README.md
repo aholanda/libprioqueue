@@ -4,9 +4,10 @@ Priority queue data structure micro library.
 
 ## Installation
 
-The libraries and headers are installed according to `PREFIX` variable. 
+The libraries, header and man pages are installed according to `PREFIX` variable. 
 The default value is `/usr/local/`. Libraries are copied to `$PREFIX/lib`, 
- and header file is copied to `$PREFIX/include`.
+ header file is copied to `$PREFIX/include`, and man pages are copied 
+ to `$PREFIX/man/man3`.
 
 ````
 $ sudo make install
