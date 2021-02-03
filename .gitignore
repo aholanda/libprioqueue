@@ -1,5 +1,6 @@
-# Programs
+# Programs and temporary files
 tests
+*.3
 
 # Profiling
 perf.*
