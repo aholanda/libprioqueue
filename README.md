@@ -40,6 +40,19 @@ $ gcc tests.c -o tests /usr/local/lib/libprioqueue.a
 gcc  tests.c -o tests -lprioqueue
 ````
 
+## Documentation
+After installing the micro-library, there's available 
+man pages for all exported functions. For example, 
+to access information about `prioqueue_new()` function, 
+execute:
+
+````sh
+$ man prioqueue_new
+````
+
+The source code is well documented to explore 
+implementation details.
+
 ## Using
 
 An example of a client program is as follows:
