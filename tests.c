@@ -86,7 +86,7 @@ static int tests() {
 }
 
 static int bench() {
-    printf("bench");
+    fprintf(stderr, "%s(): NOT IMPLEMENTED YET", __FUNCTION__);
 
     return EXIT_SUCCESS;
 }
