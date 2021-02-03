@@ -10,7 +10,7 @@ The default value is `/usr/local/`. Libraries are copied to `$PREFIX/lib`,
  to `$PREFIX/man/man3`.
 
 ````sh
-$ make # Optional, but needed if test and memory allocation checking is to performed.
+$ make # Optional, but needed if test and memory allocation checking are to performed.
 $ sudo make install
 ````
 
