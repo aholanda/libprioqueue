@@ -1,8 +1,17 @@
+/* 
+  Copyright (c) 2021 LibPrioQueue 
+  License: MIT
+*/
+
 #include <assert.h>
 #include <stdlib.h>
 
 #include "prioqueue.h"
 
+/*
+  swap exchanges the ith position to the jth position 
+  in the queue heap array.
+*/
 static void swap(PrioQueue *pq, const long i, const long j) {
         void *tmp = NULL;
 
@@ -13,10 +22,20 @@ static void swap(PrioQueue *pq, const long i, const long j) {
         pq->heap[j] = tmp;
 }
 
+/*
+  When PQMin order is chosen, the function is_less_than
+  is used to test if x is less than y with the help 
+  of cmp function assigned to PrioQueue.cmp.
+*/
 static int is_less_than(PrioQueue *pq, void *x, void *y) {
         return pq->cmp(x, y) < 0;
 }
 
+/*
+  When PQMax order is chosen, the function is_greater_than
+  is used to test if x is greater than y with the help 
+  of cmp function assigned to PrioQueue.cmp.
+*/
 static int is_greater_than(PrioQueue *pq, void *x, void *y) {
         return pq->cmp(x, y) > 0;
 }
@@ -83,7 +102,11 @@ static void **realloc_heap(PrioQueue *pq, long new_capacity) {
 
         return pq->heap;
 }
-
+/*
+  siftup compares the ith element of tree heap array 
+  with its parent, swapping positions if the 
+  heap invariance is not obeyied.
+*/
 static void siftup(PrioQueue *pq, long i) {
         void *x, *y;
 
@@ -102,11 +125,21 @@ static void siftup(PrioQueue *pq, long i) {
 /*
   To avoid constant reallocations of memory for the 
   heap array, when there is no more room for a new 
-  element the capacity of heap array is doubled, 
+  element the capacity of heap array is doubled.
+
+  prioqueue_insert assign the element pointing to 
+  elem at the end of the heap array. Then siftup 
+  is called to restore the heap invariance in the 
+  array.
 */
 void prioqueue_insert(PrioQueue *pq, void *elem) {
         assert(pq);
 
+        /* 
+          When the number of elements plus one (unused element) 
+          is greater than the heap array capacity, the 
+          heap array is increased by a factor of two.
+        */
         if (pq->n+2 == pq->cap) 
                 pq->heap = realloc_heap(pq, pq->cap*2);
         
@@ -114,6 +147,15 @@ void prioqueue_insert(PrioQueue *pq, void *elem) {
         siftup(pq, pq->n);
 }
 
+/* 
+   siftdown function compares the ith element with
+   its children in the tree heap array checking if 
+   the heap invariance is obeyed. If invariance is not
+   obeyed ith is swapped with the child that breaks
+   the invariance and ith takes jth place. The process
+   continues until the invariance is enforced in the tree
+   heap array.
+*/
 static void siftdown(PrioQueue *pq, long i) {
         long j;
         void *x, *y;
@@ -136,6 +178,15 @@ static void siftdown(PrioQueue *pq, long i) {
         }
 }
 
+/*
+  prioqueue_delete returns the first element
+  in the heap array (PQMin: lower value, PQMax: greater value)
+  removing it from array by assigning the last element
+  to 1st position. The siftdown() is called passing the 
+  1st position as argument to restore the heap invariant.
+
+  Remember: 0th element is unused.
+*/
 void *prioqueue_delete(PrioQueue *pq) {
         void *elem;
 
@@ -147,12 +198,22 @@ void *prioqueue_delete(PrioQueue *pq) {
         pq->heap[pq->n+1] = NULL;        
         siftdown(pq, 1);
 
+        /* 
+          When the number of elements plus one (unused element) 
+          is less than the half of the heap array capacity, the 
+          heap array is shrinked by a factor of two.
+        */
         if (pq->n+1 < pq->cap/2)
                 pq->heap = realloc_heap(pq, pq->cap/2);
 
         return elem;
 }
 
+/*
+  prioqueue_peek returns the first element
+  in the heap array (PQMin: lower value, PQMax: greater value)
+  without removing it from the array.
+*/
 void *prioqueue_peek(const PrioQueue *pq) {
         assert(pq);
         assert(pq->n > 0);
@@ -160,12 +221,20 @@ void *prioqueue_peek(const PrioQueue *pq) {
         return pq->heap[1];
 }
 
+/*
+  prioqueue_is_empty returns true (1) if the 
+  heap array is empty or false (0), otherwise.
+*/
 int prioqueue_is_empty(const PrioQueue *pq) {
         assert(pq);
 
         return pq->n == 0;
 }
 
+/*
+  prioqueue_size returns the number of elements
+  in the heap array.
+*/
 long prioqueue_size(const PrioQueue *pq) {
         assert(pq);
 
@@ -173,7 +242,8 @@ long prioqueue_size(const PrioQueue *pq) {
 }
 /*
   prioqueue_free releases all the memory 
-  allocated to the structure.
+  allocated to PrioQueue structure, including
+  the heap array.
 */
 void prioqueue_free(PrioQueue *pq) {
         if (pq) {
