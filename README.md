@@ -53,12 +53,12 @@ typedef struct kv_struct {
   long prio;
 } KV;
 
-static void print_prio(KV *kv) {
-  printf("prio=%ld\n", kv->prio);
+static void print_kv(KV *kv, char *op) {
+  printf("%s: {key=%ld, prio=%ld}\n", op, kv->key, kv->prio);
 }
 
 static int cmp(void *x, void *y) {
-  KV *u = (KV*)x, v = (KV*)y;
+  KV *u = (KV*)x, *v = (KV*)y;
   return u->prio - v->prio;
 }
 
@@ -71,16 +71,24 @@ int main(int argc, char **argv) {
   /* Lower numbers first. To insert greater numbers first, change PQMin to PQMax. */
   pq = prioqueue_new(cmp, PQMin);
 
-  for (i = 0; i < N; i++)
-    prioqueue_insert(pq, &kvs[i]);
-
-  /* Get and print the least prio but maintain it. */
-  print_prio((KV*)prioqueue_peek(pq));
-
-  /* Delete and print the prio values in ascending order */
+  /* Insert the KVs and rearrange the queue properly. */
   for (i = 0; i < N; i++) {
-    kv = (KV*)prioqueue_delete(pq);
-    print_prio(kv);
+    kv = &kvs[i];
+    prioqueue_insert(pq, &kvs[i]);
+    print_kv(kv, "insert");
+  }
+
+  printf("#elements inserted: %ld\n", prioqueue_size(pq));
+
+  /* Get and print the KV with the least prio but maintain it. */
+  print_kv((KV*)prioqueue_peek(pq), "peek");
+
+  /* Delete and print the KVs with prio values in ascending order */
+  for (i = 0; i < N; i++) {
+    if (!prioqueue_is_empty(pq)) {
+      kv = (KV*)prioqueue_delete(pq);
+      print_kv(kv, "delete");
+    }
   }
 
   /* Release memory */
