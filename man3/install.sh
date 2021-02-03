@@ -11,7 +11,13 @@
 ##
 
 PROJ="prioqueue"
+LIB="LibPrioQueue"
 EXT=".3"
+COLOPHON="The description of the project can be found at
+\%https://github.com/libprioqueue/prioqueue
+, any feedback about bugs and enhancements are welcome."
+DATE="2021-02-03"
+
 SUDO=""
 
 if [ -n `which sudo` ];
@@ -36,14 +42,18 @@ function install {
     MANDIR="${PREFIX}/man/man3"
     for f in `ls man3/*.troff`;
     do
-	    for m in `basename ${f} .troff | awk -F "_" '{print $1" "$2" "$3}'`;
+	    for m in `basename ${f} .troff | awk -F "-" '{print $1" "$2" "$3}'`;
 	    do
             if [ $INSTALL == true ];
             then    
-                local manpage="${MANDIR}/${PROJ}_${m}${EXT}"            
+                local manpage="${PROJ}_${m}${EXT}"            
                 run "install -d ${MANDIR}"
-		        run "install -m 644 ./${f} ${manpage}"
-                run "gzip -f ${manpage}"
+                # insert header of man file
+                local funcname=`echo ${PROJ}_${m}|awk '{print toupper($0)}'` 
+                local head=".TH ${funcname} 3 ${DATE} ${LIB}"
+                echo ${head} > ${manpage}; cat ${f} >> ${manpage}; echo ${COLOPHON} >> ${manpage}
+		        run "install -m 644 ${manpage} ${MANDIR}"
+                run "gzip -f ${MANDIR}/${manpage}"
             else                
                 local manpage="${MANDIR}/${PROJ}_${m}${EXT}.gz"
                 run "rm -f ${manpage}"
