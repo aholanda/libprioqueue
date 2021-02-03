@@ -9,7 +9,8 @@ The default value is `/usr/local/`. Libraries are copied to `$PREFIX/lib`,
  header file is copied to `$PREFIX/include`, and man pages are copied 
  to `$PREFIX/man/man3`.
 
-````
+````sh
+$ make # Optional, but needed if test and memory allocation checking is to performed.
 $ sudo make install
 ````
 
