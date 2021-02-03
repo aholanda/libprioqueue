@@ -34,7 +34,7 @@ install: libprioqueue.a libprioqueue.so ./man3/install.sh
 	@./man3/install.sh --prefix $(PREFIX) --install
 phony += install
 
-uninstall:
+uninstall: clean
 	$(RM) $(PREFIX)/lib/libprioqueue.a 
 	$(RM) $(PREFIX)/lib/libprioqueue.so 	
 	$(RM) $(PREFIX)/include/prioqueue.h
@@ -58,6 +58,6 @@ memcheck: tests
 phony += memcheck
 
 clean:
-	$(RM) $(trash) *.o
+	$(RM) $(trash) *.o *.3
 
 .PHONY: $(phony)
