@@ -98,8 +98,8 @@ PrioQueue *prioqueue_new(int (*cmp)(void *x, void *y),
 }
 
 /*
-  realoc_heap reallocate memory for priority queue
-  pq using new_capacity to represents the maximum 
+  realoc_heap reallocates memory for priority queue
+  pq using new_capacity to represent the maximum 
   number of elements minus 1 that can be stored in 
   the heap array.
 */
