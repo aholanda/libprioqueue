@@ -9,6 +9,18 @@
 #include "prioqueue.h"
 
 /*
+  A heap array is used to implement the priority queue.
+  The array a[1..n] has the heap property (invariant) if
+     \forall i : i >= 2 /\ i <= n => a[i/2] <= a[i]
+  for minimum order (PQMin) and,
+     \forall i : i >= 2 /\ i <= n => a[i/2] >= a[i]
+  for maximum order (PQMax). (Bentley, 1999)
+
+  Notice that the 0th array element is not used to simplify 
+  the critical functions due integer division.
+*/
+
+/*
   swap exchanges the ith position to the jth position 
   in the queue heap array.
 */
