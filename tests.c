@@ -7,7 +7,7 @@
 
 typedef struct keyval_struct {
     long key;
-    long val;
+    long prio;
 } KV;
 
 static int cmp_less(void *x, void *y) {
@@ -18,7 +18,7 @@ static int cmp_less(void *x, void *y) {
     xx = (KV*)x;
     yy = (KV*)y;
 
-    return xx->val - yy->val;
+    return xx->prio - yy->prio;
 }
 
 static int cmp_greater(void *x, void *y) {
@@ -29,7 +29,7 @@ static int cmp_greater(void *x, void *y) {
     xx = (KV*)x;
     yy = (KV*)y;
 
-    return yy->val - xx->val;
+    return yy->prio - xx->prio;
 }
 
 static void assert_equal(void *x, void *y) {
@@ -40,7 +40,7 @@ static void assert_equal(void *x, void *y) {
     
     if (x != y) {
         fprintf(stderr, "test failed %ld != %ld\n", 
-                xx->val, yy->val);
+                xx->prio, yy->prio);
         exit(EXIT_FAILURE);
     }
 }
@@ -48,7 +48,7 @@ static void assert_equal(void *x, void *y) {
 static void test(enum prioqueue_order order) {
     PrioQueue *pq;
     long i, delta, n = PRIOQUEUE_INITIAL_CAPACITY * 4;
-    KV *kvs; /* array of key/values */
+    KV *kvs; /* array of key/prioues */
 
     if (order == PQMin) {
         pq = prioqueue_new(cmp_less, PQMin);
@@ -62,7 +62,7 @@ static void test(enum prioqueue_order order) {
     assert(kvs);
     for (i = 0; i < n; i++ ) {
         kvs[i].key = i;
-        kvs[i].val = labs(n-i) * 10;
+        kvs[i].prio = labs(n-i) * 10;
         prioqueue_insert(pq, &kvs[i]);
     }
 
