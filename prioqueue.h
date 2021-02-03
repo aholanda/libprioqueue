@@ -1,3 +1,7 @@
+/* 
+  Copyright (c) 2021 LibPrioQueue 
+  License: MIT
+*/
 #ifndef __LIBPRIOQUEUE_PRIOQUEUE_H__
 #define __LIBPRIOQUEUE_PRIOQUEUE_H__
 
