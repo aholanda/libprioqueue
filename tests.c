@@ -10,7 +10,7 @@ typedef struct keyval_struct {
     long prio;
 } KV;
 
-static int cmp_less(void *x, void *y) {
+static int cmp(void *x, void *y) {
     KV *xx = NULL, *yy = NULL;
 
     assert(x && y);
@@ -19,17 +19,6 @@ static int cmp_less(void *x, void *y) {
     yy = (KV*)y;
 
     return xx->prio - yy->prio;
-}
-
-static int cmp_greater(void *x, void *y) {
-    KV *xx = NULL, *yy = NULL;
-
-    assert(x && y);
-    
-    xx = (KV*)x;
-    yy = (KV*)y;
-
-    return yy->prio - xx->prio;
 }
 
 static void assert_equal(void *x, void *y) {
@@ -52,10 +41,10 @@ static void test(enum prioqueue_order order, long factor) {
     KV *kv; /* pointer to kv struct */
 
     if (order == PQMin) {
-        pq = prioqueue_new(cmp_less, PQMin);
-        delta = pq->n;
+        pq = prioqueue_new(cmp, PQMin);
+        delta = n;
     } else {
-        pq = prioqueue_new(cmp_greater, PQMax);
+        pq = prioqueue_new(cmp, PQMax);
         delta = 0;
     }
 
@@ -63,7 +52,7 @@ static void test(enum prioqueue_order order, long factor) {
     assert(kvs);
     for (i = 0; i < n; i++ ) {
         kvs[i].key = i;
-        kvs[i].prio = labs(n-i) * 10;
+        kvs[i].prio = labs(delta-i) * 10;
         prioqueue_insert(pq, &kvs[i]);
     }
 
@@ -73,6 +62,7 @@ static void test(enum prioqueue_order order, long factor) {
             assert_equal(kv, &kvs[i]);
         }
     }
+
     if (kvs)
         free(kvs);
     prioqueue_free(pq);
@@ -80,9 +70,10 @@ static void test(enum prioqueue_order order, long factor) {
 
 static int tests() {
     int i;
+    long factor = 4;
 
     for (i = 0; i < 2; i++)
-        test(i, 1);
+        test(i, factor);
 
     printf("ok: all tests passed\n");
 
