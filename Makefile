@@ -58,6 +58,6 @@ memcheck: tests
 phony += memcheck
 
 clean:
-	$(RM) $(trash) *.o *.3
+	$(RM) $(trash) *.o *.3 perf.*
 
 .PHONY: $(phony)
