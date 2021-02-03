@@ -1,0 +1,56 @@
+.SH NAME
+prioqueue_insert, prioqueue_peek, prioqueue_delete \- insert, get and delete elements 
+in the priority queue
+.SH SYNOPSIS
+.nf
+.B #include <prioqueue.h>
+.PP
+.BI "void *prioqueue_insert(PrioQueue " *pq, "void " "*elem");
+.BI "void prioqueue_peek(PrioQueue " "*pq");
+.BI "void prioqueue_delete(PrioQueue " "*pq");
+.fi
+.PP
+.SH DESCRIPTION
+.PP
+The
+.BR prioqueue_insert ()
+insert the element
+.I elem
+in the queue
+.I pq.
+.PP
+The 
+.BR prioqueue_peek ()
+returns, without deleting, the 1st element in the queue.
+.PP
+.BR prioqueue_peek ()
+returns the 1st element in the queue and deletes it.
+.PP
+.SH NOTES
+.PP
+When the queue size is altered by insertion or deletion, 
+the queue's heap array elements are swapped to mantain 
+the heap invariant,
+that is 1st element is the maximum and taking an ith 
+element, its 2*ith element must be greater than its (2*i+1)th element
+if the order is
+.I PQMax
+or the 1st element is the minimum 
+and taking an ith element, 
+its 2*ith element must be less than its (2*i+1)th element
+if the queue order is
+.I PQMin.
+.PP
+The allocations may be altered if the capacity is low or too high 
+when compared to the number of elements in the queue array. The 
+array memory size increase or decrease by a factor of 2.
+.PP
+.SH SEE ALSO
+.ad l
+.nh
+.BR prioqueue_new(3)
+.BR prioqueue_free(3)
+.BR prioqueue_size(3)
+.BR prioqueue_is_empty(3)
+.PP
+.SH COLOPHON

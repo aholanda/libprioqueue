@@ -1,0 +1,58 @@
+.SH NAME
+prioqueue_new, prioqueue_free \- allocate and free memory for priority queue
+.SH SYNOPSIS
+.nf
+.B #include <prioqueue.h>
+.PP
+.BI "PrioQueue *prioqueue_new(int " "(*cmp)(void *x, void *y)" ", enum prioqueue_order " "order");
+.BI "void prioqueue_free(PrioQueue " "*pq");
+.fi
+.PP
+.SH DESCRIPTION
+.PP
+The
+.BR prioqueue_new ()
+function allocates memory for the structure
+.I PrioQueue
+using the function pointed by
+.I cmp
+to compare the elements in the queue and
+.I order
+to set if the queue is in ascending order of priority 
+with the value of 
+.I order 
+being
+.I PQMax
+or in descending order of priority where the 
+.I order
+value must be the enumeration
+.I PQMin.
+.PP
+The 
+.BR prioqueue_free ()
+releases the memory allocated to the heap array and the 
+priority queue data structure
+.I PrioQueue.
+
+.PP
+.SH NOTES
+.PP
+The heap array used to store the elements in the
+.I PrioQueue 
+is automatically managed, so there is no need 
+to pass number of elements for 
+.I prioqueue_new()
+because the memory is reallocated as needed, increasing or 
+decreasing the heap array capacity according to the 
+number of elements in the queue.
+.PP
+.SH SEE ALSO
+.ad l
+.nh
+.BR prioqueue_insert(3)
+.BR prioqueue_delete(3)
+.BR prioqueue_peek(3)
+.BR prioqueue_size(3)
+.BR prioqueue_is_empty(3)
+.PP
+.SH COLOPHON

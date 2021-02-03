@@ -1,0 +1,31 @@
+.SH NAME
+prioqueue_size, prioqueue_is_empty
+.SH SYNOPSIS
+.nf
+.B #include <prioqueue.h>
+.PP
+.BI "long prioqueue_size(PrioQueue " "*pq");
+.BI "int prioqueue_is_empty(PrioQueue " "*pq");
+.fi
+.PP
+.SH DESCRIPTION
+.PP
+The
+.BR prioqueue_size ()
+function returns the number of elements in the
+.I PrioQueue *pq.
+.BR prioqueue_is_empty ()
+returns true (1) if there's no element in the
+.I PrioQueue *pq
+and false (0), otherwise.
+.PP
+.SH SEE ALSO
+.ad l
+.nh
+.BR prioqueue_insert(3)
+.BR prioqueue_delete(3)
+.BR prioqueue_peek(3)
+.BR prioqueue_new(3)
+.BR prioqueue_free(3)
+.PP
+.SH COLOPHON
