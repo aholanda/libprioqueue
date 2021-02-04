@@ -6,10 +6,15 @@
 #include "prioqueue.h"
 
 typedef struct keyval_struct {
-    long key;
-    long prio;
+    long key; /* identification */
+    long prio; /* priority */
 } KV;
 
+/*
+  cmp performs the x-y operation for 
+  the field defined to be used as priority
+  value.
+*/
 static int cmp(void *x, void *y) {
     KV *xx = NULL, *yy = NULL;
 
@@ -20,7 +25,10 @@ static int cmp(void *x, void *y) {
 
     return xx->prio - yy->prio;
 }
-
+/*
+  assert_equals checks if the pointers x and y 
+  are equal.
+*/
 static void assert_equal(void *x, void *y) {
     KV *xx = NULL, *yy = NULL;
 
@@ -34,6 +42,26 @@ static void assert_equal(void *x, void *y) {
     }
 }
 
+/* 
+  test function has the following reasoning:
+  
+  PQMin: assign priorities in descending order to 
+  an array, adding them to priority queue. The test
+  is performed by traversing the array backwards and 
+  comparing the element of the array with the element
+  delete from the priority queue.
+
+  PQMax: assign priorities in ascending order to 
+  an array, adding them to priority queue. The test
+  is performed by traversing the array backwards and 
+  comparing the element of the array with the element
+  delete from the priority queue.
+  
+  order - is the priority queue order {PQMin, PQMax}
+  factor - the number to multiply the initial capacity
+           if the heap array to test memory allocations
+           and relases.
+*/
 static void test(enum prioqueue_order order, long factor) {
     PrioQueue *pq;
     long i, delta, n = PRIOQUEUE_INITIAL_CAPACITY * factor;
@@ -67,7 +95,10 @@ static void test(enum prioqueue_order order, long factor) {
         free(kvs);
     prioqueue_free(pq);
 }
-
+/*
+  tests function sets the factor value and run 
+  test function for PQmin and PQMax orders.
+*/
 static int tests() {
     int i;
     long factor = 4;
@@ -80,12 +111,20 @@ static int tests() {
     return EXIT_SUCCESS;
 }
 
+/*
+  bench performs a benchmark using test function.
+  It's being studied the best method to measure
+  the eficiency of each part of the micro-library.
+*/
 static int bench() {
     fprintf(stderr, "%s(): NOT IMPLEMENTED YET", __FUNCTION__);
 
     return EXIT_SUCCESS;
 }
 
+/*
+  usage function prints how to use the program.
+*/
 static int usage(char **argv) {
     fprintf(stderr, "usage: %s [--bench]\n", argv[0]);
     fprintf(stderr, "--bench: perform a benchmark;\n");
