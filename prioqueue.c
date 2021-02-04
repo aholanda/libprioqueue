@@ -18,6 +18,11 @@
 
   Notice that the 0th array element is not used to simplify 
   the critical functions due integer division.
+  
+  This priority queue implementation handles only pointers
+  passed by client programs. It's the client program's
+  responsibility to manage the memory related with 
+  its data structures.
 */
 
 /*
