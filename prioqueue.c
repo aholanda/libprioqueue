@@ -65,14 +65,15 @@ static int is_greater_than(PrioQueue *pq, void *x, void *y) {
   with a initial size equals to the macro 
   PRIOQUEUE_INITIAL_CAPACITY set in the header. 
   This avoids frequent reallocations and this value 
-  may be modified adjusting each project needs.
+  may be modified adjusted according to each 
+  project needs.
 
   The first element in the heap array is ignored.
-  This becomes the shifts in the heap easier to 
-  reasoning. (Thanks to Sedgewick/Wayne)
+  This becomes the swaps in the heap easier to 
+  reasoning. (Thanks to Sedgewick/Wayne, and Bentley)
   The elements are numbered from 1 up to N (included).
 
-  @return a pointer to priority queue structure is returned.
+  A pointer to priority queue structure is returned.
 */
 PrioQueue *prioqueue_new(int (*cmp)(void *x, void *y),
                          enum prioqueue_order order) {
@@ -88,10 +89,10 @@ PrioQueue *prioqueue_new(int (*cmp)(void *x, void *y),
         else
                 pq->__cmp = is_less_than;
 
-        /* Allocate the unused element. */
         pq->cap = PRIOQUEUE_INITIAL_CAPACITY;
         pq->heap = (void**)calloc(pq->cap, sizeof(void*));
         assert(pq->heap);
+        /* Set the unused element. */
         pq->heap[0] = NULL;
 
         return pq;
@@ -99,7 +100,7 @@ PrioQueue *prioqueue_new(int (*cmp)(void *x, void *y),
 
 /*
   realoc_heap reallocates memory for priority queue
-  pq using new_capacity to represent the maximum 
+  pq->heap using new_capacity as the maximum 
   number of elements minus 1 that can be stored in 
   the heap array.
 */
@@ -117,7 +118,7 @@ static void **realloc_heap(PrioQueue *pq, long new_capacity) {
 /*
   siftup compares the ith element of tree heap array 
   with its parent, swapping positions if the 
-  heap invariance is not obeyied.
+  heap invariance is not obeyed.
 */
 static void siftup(PrioQueue *pq, long i) {
         void *x, *y;
@@ -135,14 +136,10 @@ static void siftup(PrioQueue *pq, long i) {
 }
 
 /*
-  To avoid constant reallocations of memory for the 
-  heap array, when there is no more room for a new 
-  element the capacity of heap array is doubled.
-
-  prioqueue_insert assign the element pointing to 
+  prioqueue_insert assigns the element pointing to 
   elem at the end of the heap array. Then siftup 
   is called to restore the heap invariance in the 
-  array.
+  tree-like array.
 */
 void prioqueue_insert(PrioQueue *pq, void *elem) {
         assert(pq);
@@ -161,12 +158,12 @@ void prioqueue_insert(PrioQueue *pq, void *elem) {
 
 /* 
    siftdown function compares the ith element with
-   its children in the tree heap array checking if 
-   the heap invariance is obeyed. If invariance is not
-   obeyed ith is swapped with the child that breaks
-   the invariance and ith takes jth place. The process
-   continues until the invariance is enforced in the tree
-   heap array.
+   its children in the heap tree-like array checking if 
+   the heap invariance is obeyed. If the invariance is not
+   obeyed, the ith element is swapped with its child (jth element)
+   that breaks the heap invariance and ith is swapped with jth place. 
+   The process continues until the heap invariance is enforced 
+   in the tree-like array.
 */
 static void siftdown(PrioQueue *pq, long i) {
         long j;
@@ -223,7 +220,7 @@ void *prioqueue_delete(PrioQueue *pq) {
 /*
   prioqueue_peek returns the first element
   in the heap array (PQMin: lower value, PQMax: greater value)
-  without removing it from the array.
+  without removing it from the heap array.
 */
 void *prioqueue_peek(const PrioQueue *pq) {
         assert(pq);
