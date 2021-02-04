@@ -34,12 +34,12 @@ Examples of inclusion of library `prioqueue` in programs:
 
 - static
 ````sh
-$ gcc tests.c -o tests /usr/local/lib/libprioqueue.a
+$ cc tests.c -o tests /usr/local/lib/libprioqueue.a
 ````
 
 - dynamic
 ````sh
-gcc  tests.c -o tests -lprioqueue
+$ cc  tests.c -o tests -lprioqueue
 ````
 
 ## Documentation
